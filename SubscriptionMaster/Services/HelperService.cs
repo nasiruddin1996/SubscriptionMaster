@@ -29,8 +29,14 @@ namespace SubscriptionMaster.Services
                 ServiceId = "100001",
                 Currency = "BDT",
                 StartDate = DateTime.UtcNow.ToString("yyyy-MM-dd"),
-                ExpiryDate = DateTime.UtcNow.AddMonths(1).ToString("yyyy-MM-dd"),
-                Frequency = frequency, //DAILY, WEEKLY or MONTHLY
+                ExpiryDate = frequency.ToUpper() switch
+                {
+                    "DAILY" => DateTime.UtcNow.AddDays(1).ToString(),
+                    "WEEKLY" => DateTime.UtcNow.AddDays(7).ToString(),
+                    "MONTHLY" => DateTime.UtcNow.AddMonths(1).ToString(),
+                    _ => DateTime.UtcNow.AddMonths(1).ToString()
+                },
+                Frequency = frequency.ToUpper(), //DAILY, WEEKLY or MONTHLY
                 SubscriptionType = "BASIC",
                 MaxCapRequired = "False",
                 MerchantShortCode = "01779707460",
